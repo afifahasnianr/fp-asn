@@ -3,3 +3,6 @@ numpy
 matplotlib
 plotly
 streamlit
+streamlit_option_menu
+streamlit_lottie 
+st_click_detector 
