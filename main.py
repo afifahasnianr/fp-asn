@@ -21,38 +21,11 @@ data["elapsed time"] = data["sample interval"] * (1/200)
 x = data["elapsed time"]
 y = data["ECG"] - (sum(data["ECG"]) / len(data["ECG"]))  # Ensure the signal baseline is zero
 
-    
-# Range data to be processed (adjust mins and maks as needed)
-mins = 0 * fs
-maks = 4 * fs
 
+# File uploader for data file
+uploaded_file = st.file_uploader("Choose a file")
 
-# Display Streamlit
-with st.sidebar:
-    selected = option_menu("TUGAS 1", ["Home", "Signal Processing", "HRV Analysis", "DWT"], default_index=0)
-
-if selected == "Home":
-    st.title('Final Project ASN Kelompok 6')
-   
-    st.subheader("Anggota kelompok")
-    members = [
-        "Afifah Hasnia Nur Rosita - 5023211007",
-        "Syahdifa Aisyah Qurrata Ayun - 5023211032",
-        "Sharfina Nabila Larasati - 5023211055"
-    ]
-    
-    for member in members:
-        new_title = f'<p style="font-family:Georgia; color: white; font-size: 34px;">{member}</p>'
-        st.markdown(new_title, unsafe_allow_html=True)
-
-if selected == "Signal Processing":
-    st.title('Signal Processing')
-
-
-    # File uploader for data file
-    uploaded_file = st.file_uploader("Choose a file")
-
-    if uploaded_file is not None:
+if uploaded_file is not None:
         # Load the data
         df = pd.read_csv(uploaded_file, sep='\t', header=None)
         ecg_signal = df[df.columns[0]]
@@ -85,30 +58,30 @@ if selected == "Signal Processing":
         # Show the plot
         st.plotly_chart(fig)
 
- # 1. Compute h(n) and g(n)
-    h = []
-    g = []
-    n_list = []
-    for n in range(-2, 3):  # Ensure the range includes 2
+# 1. Compute h(n) and g(n)
+h = []
+g = []
+n_list = []
+for n in range(-2, 3):  # Ensure the range includes 2
         n_list.append(n)
         temp_h = 1/8 * (dirac(n-1) + 3*dirac(n) + 3*dirac(n+1) + dirac(n+2))
         h.append(temp_h)
         temp_g = -2 * (dirac(n) - dirac(n+1))
         g.append(temp_g)
 
-    # Plot h(n)
-    st.title('LPF and HPF Filter Coefficient')
+# Plot h(n)
+st.title('LPF and HPF Filter Coefficient')
 
-    st.subheader('h(n)')
-    fig, ax = plt.subplots()
-    ax.bar(n_list, h, 0.1)
-    st.pyplot(fig)
+st.subheader('h(n)')
+fig, ax = plt.subplots()
+ax.bar(n_list, h, 0.1)
+st.pyplot(fig)
 
-    # Plot g(n)
-    st.subheader('g(n)')
-    fig, ax = plt.subplots()
-    ax.bar(n_list, g, 0.1)
-    st.pyplot(fig)
+# Plot g(n)
+st.subheader('g(n)')
+fig, ax = plt.subplots()
+ax.bar(n_list, g, 0.1)
+st.pyplot(fig)
 
     # 2.  to compute H(w) and G(w)
 def compute_HW_GW():
@@ -135,7 +108,10 @@ def compute_HW_GW():
     i_list = i_list[0:round(fs/2)+1]
 
     #return i_list, Hw[0:len(i_list)], Gw[0:len(i_list)]
-    
+# Range data to be processed (adjust mins and maks as needed)
+mins = 0 * fs
+maks = 4 * fs
+
 # T and Delay calculations (example)
 T1 = round(2**(1 - 1)) - 1
 T2 = round(2**(2 - 1)) - 1
@@ -166,6 +142,34 @@ for n in range(mins, maks + 1):
 # Compute H(w) and G(w)
 #i_list, Hw, Gw = compute_HW_GW()
 
+# Display Streamlit
+with st.sidebar:
+    selected = option_menu("TUGAS 1", ["Home", "Signal Processing", "HRV Analysis", "DWT"], default_index=0)
+
+if selected == "Home":
+    st.title('Final Project ASN Kelompok 6')
+   
+    st.subheader("Anggota kelompok")
+    members = [
+        "Afifah Hasnia Nur Rosita - 5023211007",
+        "Syahdifa Aisyah Qurrata Ayun - 5023211032",
+        "Sharfina Nabila Larasati - 5023211055"
+    ]
+    
+    for member in members:
+        new_title = f'<p style="font-family:Georgia; color: white; font-size: 34px;">{member}</p>'
+        st.markdown(new_title, unsafe_allow_html=True)
+
+if selected == "Signal Processing":
+    st.title('Signal Processing')
+# Handle different selections
+if selected == "HRV Analysis":
+ st.title('HRV Analysis')
+# Add HRV analysis logic here
+if selected == "DWT":
+ st.title('DWT')
+# Add DWT analysis logic here
+
 # Plot H(w)
 st.subheader('H(w)')
 plt.plot(i_list, Hw)
@@ -187,11 +191,3 @@ plt.xlabel('n')
 plt.ylabel('w2fm[1, n]')
 plt.title('Mallat Filtering')  # Title for the Mallat filter plot
 plt.legend()
-
-# Handle different selections
-if selected == "HRV Analysis":
- st.title('HRV Analysis')
-# Add HRV analysis logic here
-if selected == "DWT":
- st.title('DWT')
-# Add DWT analysis logic here
