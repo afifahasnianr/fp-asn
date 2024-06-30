@@ -7,8 +7,6 @@ import math
 import streamlit as st 
 
 
-
-
 ########
 column_names = ['ECG']
 data=pd.read_csv('dataecginofix1.txt',delimiter="\t", names=column_names)
@@ -16,10 +14,6 @@ data["sample interval"] = np.arange(len(data))
 data["elapsed time"] = (data["sample interval"])*(1/200)
 x=data["elapsed time"]
 y=data["ECG" ] - (sum(data["ECG" ]/len(data["ECG"]))) #agar turun ke baseline
-
-
-
-
 
 
 #DISPLAY STREAMLIT
