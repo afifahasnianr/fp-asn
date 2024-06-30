@@ -20,58 +20,54 @@ elapsed_time = sample_interval * (1/125)
 y = ecg_signal/1e8
 
 def dirac(x):
-  if (x==0):
-    dirac_delta = 1
-  else:
-    dirac_delta = 0
+    if (x == 0):
+        dirac_delta = 1
+    else:
+        dirac_delta = 0
 
-  result = dirac_delta
-  return result
+    result = dirac_delta
+    return result
 
-h = [ ]
-g = [ ]
-n_list = [ ]
-for n in range(-2,2) :
-  n_list. append(n)
-  temp_h = 1/8 * (dirac(n-1) + 3*dirac(n) + 3*dirac(n+1) + dirac(n+2))
-  h. append (temp_h)
-  temp_g = -2 * (dirac(n) - dirac(n+1))
-  g.append (temp_g)
+h = []
+g = []
+n_list = []
+for n in range(-2, 2):
+    n_list.append(n)
+    temp_h = 1/8 * (dirac(n-1) + 3*dirac(n) + 3*dirac(n+1) + dirac(n+2))
+    h.append(temp_h)
+    temp_g = -2 * (dirac(n) - dirac(n+1))
+    g.append(temp_g)
 
-# Hw = []
-# Gw = []
-Hw = np. zeros(20000)
-Gw = np. zeros (20000)
+Hw = np.zeros(20000)
+Gw = np.zeros(20000)
 fs = 125
 i_list = []
-for i in range(0, fs+1) :
-  i_list. append (i)
-  reG = 0
-  imG = 0
-  reH = 0
-  imH = 0
-  for k in range(-2,2):
-    reG = reG + g[k+abs(-2)]*np.cos(k*2*np.pi*i/fs)
-    imG = imG - g[k+abs(-2)]*np.sin(k*2*np.pi*i/fs)
-    reH = reH + h[k+abs(-2)]*np.cos(k*2*np.pi*i/fs)
-    imH = imH - h[k+abs(-2)]*np.sin(k*2*np.pi*i/fs)
-  temp_Hw = np.sqrt( (reH**2) + (imH**2) )
-  temp_Gw = np. sqrt ( (reG**2) + (imG**2) )
-  # Hw. append(temp_Hw)
-  # Gw. append(temp_Gw)
-  Hw[i] = temp_Hw
-  Gw[i] = temp_Gw
+for i in range(0, fs+1):
+    i_list.append(i)
+    reG = 0
+    imG = 0
+    reH = 0
+    imH = 0
+    for k in range(-2, 2):
+        reG = reG + g[k+abs(-2)]*np.cos(k*2*np.pi*i/fs)
+        imG = imG - g[k+abs(-2)]*np.sin(k*2*np.pi*i/fs)
+        reH = reH + h[k+abs(-2)]*np.cos(k*2*np.pi*i/fs)
+        imH = imH - h[k+abs(-2)]*np.sin(k*2*np.pi*i/fs)
+    temp_Hw = np.sqrt((reH**2) + (imH**2))
+    temp_Gw = np.sqrt((reG**2) + (imG**2))
+    Hw[i] = temp_Hw
+    Gw[i] = temp_Gw
 
 i_list = i_list[0:round(fs/2)+1]
 
 # range data yang akan diproses (min s/d max seconds)
 mins = 0*fs
 maks = 4*fs
-T1 = round (2** (1-1)) - 1
-T2 = round (2** (2-1)) - 1
-T3 = round (2** (3-1)) - 1
-T4 = round (2** (4-1)) - 1
-T5 = round (2** (5-1)) - 1
+T1 = round(2**(1-1)) - 1
+T2 = round(2**(2-1)) - 1
+T3 = round(2**(3-1)) - 1
+T4 = round(2**(4-1)) - 1
+T5 = round(2**(5-1)) - 1
 
 Delay1 = T5 - T1
 Delay2 = T5 - T2
@@ -79,7 +75,7 @@ Delay3 = T5 - T3
 Delay4 = T5 - T4
 Delay5 = T5 - T5
 
-#Mallat filter
+# Mallat filter
 w2fm = np.zeros((6, maks + 1))
 s2fm = np.zeros((6, maks + 1))
 
@@ -94,7 +90,7 @@ for n in range(mins, maks + 1):
                 w2fm[j, n] += g[k + 1] * y[index]  # g[k+1] to match indexing
                 s2fm[j, n] += h[k + 1] * y[index]  # h[k+1] to match indexing
 
-#plotting w1fm[1,n]
+# plotting w1fm[1,n]
 plt.figure(figsize=(20, 5))
 x_values = range(mins, maks + 1)
 y_values = [w2fm[1, n] for n in x_values]
@@ -140,133 +136,110 @@ plt.figure(figsize=(20, 5))
 y_values_s2fm_5 = [s2fm[5, n] for n in x_values]
 
 # Create 2D Array
-Q = np. zeros ((9, round (fs/2)+1))
+Q = np.zeros((9, round(fs/2)+1))
 
-#Filter bank until 8th order
-#i_list = [ ]
-for i in range(0, round(fs/2)+1) :
-  i_list.append(i)
-  Q[1][i] = Gw[i]
-  Q[2][i] = Gw[2*i]*Hw[i]
-  Q[3][i] = Gw[4*i]*Hw[2*i]*Hw[i]
-  Q[4][i] = Gw[8*i]*Hw[4*i]*Hw[2*i]*Hw[i]
-  Q[5][i] = Gw[16*i]*Hw[8*i]*Hw[4*i]*Hw[2*i]*Hw[i]
-  Q[6][i] = Gw[32*i]*Hw[16*i]*Hw[8*i]*Hw[4*i]*Hw[2*i]*Hw[i]
-  Q[7][i] = Gw[64*i]*Hw[32*i]*Hw[16*i]*Hw[8*i]*Hw[4*i]*Hw[2*i]*Hw[i]
-  Q[8][i] = Gw[128*i]*Hw[64*i]*Hw[32*i]*Hw[16*i]*Hw[8*i]*Hw[4*i]*Hw[2*i]*Hw[i]
+# Filter bank until 8th order
+for i in range(0, round(fs/2)+1):
+    i_list.append(i)
+    Q[1][i] = Gw[i]
+    Q[2][i] = Gw[2*i]*Hw[i]
+    Q[3][i] = Gw[4*i]*Hw[2*i]*Hw[i]
+    Q[4][i] = Gw[8*i]*Hw[4*i]*Hw[2*i]*Hw[i]
+    Q[5][i] = Gw[16*i]*Hw[8*i]*Hw[4*i]*Hw[2*i]*Hw[i]
+    Q[6][i] = Gw[32*i]*Hw[16*i]*Hw[8*i]*Hw[4*i]*Hw[2*i]*Hw[i]
+    Q[7][i] = Gw[64*i]*Hw[32*i]*Hw[16*i]*Hw[8*i]*Hw[4*i]*Hw[2*i]*Hw[i]
+    Q[8][i] = Gw[128*i]*Hw[64*i]*Hw[32*i]*Hw[16*i]*Hw[8*i]*Hw[4*i]*Hw[2*i]*Hw[i]
 
-  #Calculate the x-axis value
-  i_list = np.arange(0, round(fs/2)+1)
+# Calculate the x-axis value
+i_list = np.arange(0, round(fs/2)+1)
 
-  qj = np.zeros((6, 10000))
+qj = np.zeros((6, 10000))
 
-  #Filter coeff. from filter bank 1st order
-  k_list = [ ]
-  j = 1
-  a = -(round(2**j) + round(2**(j-1)) - 2 )
-  print('a =', a)
-  b = -(1 - round (2** (j-1))) + 1
-  print('b =', b)
-  for k in range (a,b):
-      k_list.append(k)
-      qj[1][k+abs(a)] = -2 * ( dirac(k) - dirac(k+1) )
-
-  #Filter coeff. from filter bank 2nd order
-  k_list = []
-  j = 2
-  a = -(round(2**j) + round(2**(j-1)) - 2 )
-  print('a =', a)
-  b = - (1 - round (2**(j-1))) + 1
-  print('b =', b)
-  for k in range (a,b):
+# Filter coeff. from filter bank 1st order
+k_list = []
+j = 1
+a = -(round(2**j) + round(2**(j-1)) - 2)
+print('a =', a)
+b = -(1 - round(2**(j-1))) + 1
+print('b =', b)
+for k in range(a, b):
     k_list.append(k)
-    qj[2][k+abs(a)] = -1/4*(dirac(k-1) + 3*dirac(k) + 2*dirac(k+1) - 2*dirac(k+2)- 3*dirac(k+3) - dirac(k+4))
+    qj[1][k+abs(a)] = -2 * (dirac(k) - dirac(k+1))
 
-  #Filter coeff. from filter bank 3rd order
-  k_list = [ ]
-  j= 3
-  a = -(round(2**j) + round(2**(j-1)) - 2 )
-  print('a =', a)
-  b = -(1 - round(2**(j-1))) + 1
-  print('b =', b)
-  
-  for k in range (a,b):
+# Filter coeff. from filter bank 2nd order
+k_list = []
+j = 2
+a = -(round(2**j) + round(2**(j-1)) - 2)
+print('a =', a)
+b = -(1 - round(2**(j-1))) + 1
+print('b =', b)
+for k in range(a, b):
     k_list.append(k)
-    qj[3][k+abs(a)] = -1/32*(dirac(k-3) + 3*dirac(k-2) + 6*dirac(k-1) + 10*dirac(k)
-    + 11*dirac(k+1) + 9*dirac(k+2) + 4*dirac(k+3) - 4*dirac(k+4) - 9*dirac(k+5)
-    - 11*dirac(k+6) - 10*dirac(k+7) - 6*dirac(k+8) - 3*dirac(k+9) - dirac(k+10))
+    qj[2][k+abs(a)] = -1/4*(dirac(k-1) + 3*dirac(k) + 2*dirac(k+1) - 2*dirac(k+2) - 3*dirac(k+3) - dirac(k+4))
 
-  #Filter coeff. from filter bank 4th order
-  k_list = []
-  j = 4
-  a = -(round (2**j) + round (2**(j-1)) - 2 )
-  print('a =', a)
-  b = -(1 - round (2**(j-1))) + 1
-  print('b =', b)
-  for k in range (a,b):
+# Filter coeff. from filter bank 3rd order
+k_list = []
+j = 3
+a = -(round(2**j) + round(2**(j-1)) - 2)
+print('a =', a)
+b = -(1 - round(2**(j-1))) + 1
+print('b =', b)
+for k in range(a, b):
     k_list.append(k)
-    qj[4][k+abs(a)] = -1/256*(dirac(k-7) + 3*dirac(k-6) + 6*dirac(k-5) + 10*dirac(k-4) + 15*dirac(k-3)
-    + 21*dirac(k-2) + 28*dirac(k-1) + 36*dirac(k) + 41*dirac(k+1) + 43*dirac(k+2)
-    + 42*dirac(k+3) + 38*dirac(k+4) + 31*dirac(k+5) + 21*dirac(k+6) + 8*dirac(k+7)
-    - 8*dirac(k+8) - 21*dirac(k+9) - 31*dirac(k+10) - 38*dirac(k+11) - 42*dirac(k+12)
-    - 43*dirac(k+13) - 41*dirac(k+14) - 36*dirac(k+15) - 28*dirac(k+16) - 21*dirac(k+17)
-    - 15*dirac(k+18) - 10*dirac(k+19) - 6*dirac(k+20) - 3*dirac(k+21) - dirac(k+22))
+    qj[3][k+abs(a)] = -1/16*(dirac(k-3) + 3*dirac(k-2) + 3*dirac(k-1) + dirac(k) - dirac(k+1) - 3*dirac(k+2) - 3*dirac(k+3) - dirac(k+4))
 
-  #Filter coeff. from filter bank 5th order
-  k_list = []
-  j = 5
-  a = -(round(2**j) + round(2**(j-1)) - 2)
-  print('a = ', a)
-  b = -(1 - round(2**(j-1))) + 1
-  print('b = ', b)
-  
-  for k in range(a,b):
+# Filter coeff. from filter bank 4th order
+k_list = []
+j = 4
+a = -(round(2**j) + round(2**(j-1)) - 2)
+print('a =', a)
+b = -(1 - round(2**(j-1))) + 1
+print('b =', b)
+for k in range(a, b):
     k_list.append(k)
-    qj[5][k+abs(a)] = -1/(512)*(dirac(k-15) + 3*dirac(k-14) + 6*dirac(k-13) + 10*dirac(k-12) + 15*dirac(k-11) + 21*dirac(k-10)
-                        + 28*dirac(k-9) + 36*dirac(k-8) + 45*dirac(k-7) + 55*dirac(k-6) + 66*dirac(k-5) + 78*dirac(k-4)
-                        + 91*dirac(k-3) + 105*dirac(k-2) + 120*dirac(k-1) + 136*dirac(k) + 149*dirac(k+1) + 159*dirac(k+2)
-                        + 166*dirac(k+3) + 170*dirac(k+4) + 171*dirac(k+5) + 169*dirac(k+6) + 164*dirac(k+7) + 156*dirac(k+8)
-                        + 145*dirac(k+9) + 131*dirac(k+10) + 114*dirac(k+11) + 94*dirac(k+12) + 71*dirac(k+13) + 45*dirac(k+14)
-                        + 16*dirac(k+15) - 16*dirac(k+16) - 45*dirac(k+17) - 71*dirac(k+18) - 94*dirac(k+19) - 114*dirac(k+20)
-                        - 131*dirac(k+21) - 145*dirac(k+22) - 156*dirac(k+23) - 164*dirac(k+24) - 169*dirac(k+25)
-                        - 171*dirac(k+26) - 170*dirac(k+27) - 166*dirac(k+28) - 159*dirac(k+29) - 149*dirac(k+30)
-                        - 136*dirac(k+31) - 120*dirac(k+32) - 105*dirac(k+33) - 91*dirac(k+34) - 78*dirac(k+35)
-                        - 66*dirac(k+36) - 55*dirac(k+37) - 45*dirac(k+38) - 36*dirac(k+39) - 28*dirac(k+40)
-                        - 21*dirac(k+41) - 15*dirac(k+42) - 10*dirac(k+43) - 6*dirac(k+44) - 3*dirac(k+45)
-                        - dirac(k+46))
+    qj[4][k+abs(a)] = -1/64*(dirac(k-7) + 3*dirac(k-6) + 3*dirac(k-5) + dirac(k-4) + dirac(k-3) + 3*dirac(k-2) + 3*dirac(k-1) + dirac(k) - dirac(k+1) - 3*dirac(k+2) - 3*dirac(k+3) - dirac(k+4) - dirac(k+5) - 3*dirac(k+6) - 3*dirac(k+7) - dirac(k+8))
 
-  ecg=y 
-  w2fb = np.zeros((6, len(ecg) + T5))
-  n_list = list(range(len(ecg)))
+# Filter coeff. from filter bank 5th order
+k_list = []
+j = 5
+a = -(round(2**j) + round(2**(j-1)) - 2)
+print('a =', a)
+b = -(1 - round(2**(j-1))) + 1
+print('b =', b)
+for k in range(a, b):
+    k_list.append(k)
+    qj[5][k+abs(a)] = -1/256*(dirac(k-15) + 3*dirac(k-14) + 3*dirac(k-13) + dirac(k-12) + dirac(k-11) + 3*dirac(k-10) + 3*dirac(k-9) + dirac(k-8) - dirac(k-7) - 3*dirac(k-6) - 3*dirac(k-5) - dirac(k-4) - dirac(k-3) - 3*dirac(k-2) - 3*dirac(k-1) - dirac(k) + dirac(k+1) + 3*dirac(k+2) + 3*dirac(k+3) + dirac(k+4) + dirac(k+5) + 3*dirac(k+6) + 3*dirac(k+7) + dirac(k+8) - dirac(k+9) - 3*dirac(k+10) - 3*dirac(k+11) - dirac(k+12) - dirac(k+13) - 3*dirac(k+14) - 3*dirac(k+15) - dirac(k+16))
+ecg=y 
+w2fb = np.zeros((6, len(ecg) + T5))
+n_list = list(range(len(ecg)))
   
   # Perform calculations
-  for n in n_list:
-      for j in range(1, 6):
-          w2fb[1][n + T1] = 0
-          w2fb[2][n + T2] = 0
-          w2fb[3][n + T3] = 0
-          a = -(round(2**j) + round(2**(j - 1)) - 2)
-          b = -(1 - round(2**(j - 1)))
-          for k in range(a, b + 1):
-              index = n - (k + abs(a))
-              if 0 <= index < len(ecg):
-                  w2fb[1][n + T1] += qj[1][k + abs(a)] * ecg[index]
-                  w2fb[2][n + T2] += qj[2][k + abs(a)] * ecg[index]
-                  w2fb[3][n + T3] += qj[3][k + abs(a)] * ecg[index]
-                  w2fb[4][n + T3] += qj[4][k + abs(a)] * ecg[index]
-                  w2fb[5][n + T3] += qj[5][k + abs(a)] * ecg[index]
+for n in n_list:
+    for j in range(1, 6):
+        w2fb[1][n + T1] = 0
+        w2fb[2][n + T2] = 0
+        w2fb[3][n + T3] = 0
+        a = -(round(2**j) + round(2**(j - 1)) - 2)
+        b = -(1 - round(2**(j - 1)))
+        for k in range(a, b + 1):
+            index = n - (k + abs(a))
+            if 0 <= index < len(ecg):
+                w2fb[1][n + T1] += qj[1][k + abs(a)] * ecg[index]
+                w2fb[2][n + T2] += qj[2][k + abs(a)] * ecg[index]
+                w2fb[3][n + T3] += qj[3][k + abs(a)] * ecg[index]
+                w2fb[4][n + T3] += qj[4][k + abs(a)] * ecg[index]
+                w2fb[5][n + T3] += qj[5][k + abs(a)] * ecg[index]
                 
-  #Plot for 3rd gradient
-  gradien3 = np.zeros(len(ecg))
+#Plot for 3rd gradient
+gradien3 = np.zeros(len(ecg))
     
-  # Define delay
-  delay = T3
+# Define delay
+delay = T3
     
-  # Compute gradien3
-
-  N = len(ecg)
-  for k in range(delay, N - delay):
-      gradien3[k] = w2fb[3][k - delay] - w2fb[3][k + delay]
+# Compute gradien3
+N = len(ecg)
+for k in range(delay, N - delay):
+    gradien3[k] = w2fb[3][k - delay] - w2fb[3][k + delay]
 
   #QRS Detection
   hasil_QRS = np.zeros(len(elapsed_time))
