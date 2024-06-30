@@ -557,6 +557,7 @@ if selected == "DWT":
             st.plotly_chart(fig)
 
         #Plot for 3rd gradient
+        st.title('3rd Gradient Plot')
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=ecg_index, y=gradien3, mode='lines', name='Gradien 3', line=dict(color='blue')))
         fig.update_layout(
@@ -569,8 +570,6 @@ if selected == "DWT":
         
         # Display in Streamlit
         st.plotly_chart(fig)
-        
-
 
 
 
