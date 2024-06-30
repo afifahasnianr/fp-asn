@@ -12,17 +12,7 @@ def dirac(x):
         return 1
     else:
         return 0
-
-
-# Read data
-column_names = ['ECG']
-data = pd.read_csv('dataecginofix1.txt', delimiter="\t", names=column_names)
-data["sample interval"] = np.arange(len(data))
-data["elapsed time"] = data["sample interval"] * (1/200)
-x = data["elapsed time"]
-y = data["ECG"] - (sum(data["ECG"]) / len(data["ECG"]))  # Ensure the signal baseline is zero
-
-
+        
 # Function to compute H(w) and G(w)
 def compute_HW_GW():
     Hw = np.zeros(20000)
@@ -51,6 +41,15 @@ def compute_HW_GW():
     i_list = i_list[0:round(fs/2)+1]
 
     return i_list, Hw[0:len(i_list)], Gw[0:len(i_list)]
+
+# Read data
+column_names = ['ECG']
+data = pd.read_csv('dataecginofix1.txt', delimiter="\t", names=column_names)
+data["sample interval"] = np.arange(len(data))
+data["elapsed time"] = data["sample interval"] * (1/200)
+x = data["elapsed time"]
+y = data["ECG"] - (sum(data["ECG"]) / len(data["ECG"]))  # Ensure the signal baseline is zero
+
 
 # Range data to be processed (adjust mins and maks as needed)
 fs = 125
