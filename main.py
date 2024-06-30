@@ -192,11 +192,11 @@ plt.title('Mallat Filtering')  # Title for the Mallat filter plot
 plt.legend()
 
 # Handle different selections
-if selected == "HRV Analysis":
+elif selected == "HRV Analysis":
     st.title('HRV Analysis')
     # Add HRV analysis logic here
 
-elif selected == "DWT":
+else selected == "DWT":
     st.title('DWT')
     # Add DWT analysis logic here
 
