@@ -32,7 +32,10 @@ if selected == "Home":
         st.markdown(new_title, unsafe_allow_html=True)
 
 if selected == "Signal Processing":
+    st.set_option('deprecation.showPyplotGlobalUse', False)
     st.title('Signal Processing')
+    
+
 
 # Read data
     column_names = ['ECG']
