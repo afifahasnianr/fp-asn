@@ -46,7 +46,7 @@ y = data["ECG"] - (sum(data["ECG"]) / len(data["ECG"]))  # Ensure the signal bas
 h = []
 g = []
 n_list = []
-for n in range(-2, 3):  # Ensure the range includes 2
+for n in range(-2, 2):  # Ensure the range includes 2
         n_list.append(n)
         temp_h = 1/8 * (dirac(n-1) + 3*dirac(n) + 3*dirac(n+1) + dirac(n+2))
         h.append(temp_h)
@@ -76,7 +76,7 @@ def compute_HW_GW():
         Gw[i] = temp_Gw
 
     i_list = i_list[0:round(fs/2)+1]
-    return i_list, Hw[0:len(i_list)], Gw[0:len(i_list)]
+    #return i_list, Hw[0:len(i_list)], Gw[0:len(i_list)]
 
 # Range data to be processed (adjust mins and maks as needed)
 fs = 125
