@@ -167,7 +167,7 @@ for n in range(mins, maks + 1):
                 s2fm[j, n] += h[k + 1] * y[index]  # h[k+1] to match indexing
 
     # Compute H(w) and G(w)
-    #i_list, Hw, Gw = compute_HW_GW()
+    i_list, Hw, Gw = compute_HW_GW()
 
     # Plot H(w)
     st.subheader('H(w)')
@@ -195,6 +195,6 @@ elif selected == "HRV Analysis":
     st.title('HRV Analysis')
     # Add HRV analysis logic here
 
-else selected == "DWT":
+elif selected == "DWT":
     st.title('DWT')
     # Add DWT analysis logic here
