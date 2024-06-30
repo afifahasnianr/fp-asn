@@ -231,6 +231,42 @@ for i in range(0, round(fs/2)+1) :
                         - 21*dirac(k+41) - 15*dirac(k+42) - 10*dirac(k+43) - 6*dirac(k+44) - 3*dirac(k+45)
                         - dirac(k+46))
 
+  ecg=y
+  
+  w2fb = np.zeros((6, len(ecg) + T5))
+  
+  
+  n_list = list(range(len(ecg)))
+  
+  # Perform calculations
+  for n in n_list:
+      for j in range(1, 6):
+          w2fb[1][n + T1] = 0
+          w2fb[2][n + T2] = 0
+          w2fb[3][n + T3] = 0
+          a = -(round(2**j) + round(2**(j - 1)) - 2)
+          b = -(1 - round(2**(j - 1)))
+          for k in range(a, b + 1):
+              index = n - (k + abs(a))
+              if 0 <= index < len(ecg):
+                  w2fb[1][n + T1] += qj[1][k + abs(a)] * ecg[index]
+                  w2fb[2][n + T2] += qj[2][k + abs(a)] * ecg[index]
+                  w2fb[3][n + T3] += qj[3][k + abs(a)] * ecg[index]
+                  w2fb[4][n + T3] += qj[4][k + abs(a)] * ecg[index]
+                  w2fb[5][n + T3] += qj[5][k + abs(a)] * ecg[index]
+                
+  #Plot for 3rd gradient
+  gradien3 = np.zeros(len(ecg))
+    
+  # Define delay
+  delay = T3
+    
+  # Compute gradien3
+  N = len(ecg)
+  for k in range(delay, N - delay):
+      gradien3[k] = w2fb[3][k - delay] - w2fb[3][k + delay]
+
+
 #DISPLAY STREAMLIT
 st.set_page_config(
   page_title="FINAL PROJECT ASN",
@@ -500,6 +536,40 @@ if selected == "DWT":
         st.title('5th Order Filter Bank Coeff')
         st.bar_chart(qj[5][0:len(k_list)])
 
+        # Create and display plots for each DWT level
+        figs = []
+        n = np.arange(1000)
+        
+        for i in range(1, 6):
+            fig = go.Figure()
+            fig.add_trace(go.Scatter(x=n, y=w2fb[i][:len(n)], mode='lines', name=f'Order {i}'))
+            fig.update_layout(
+                title=f'Plot Order {i}',
+                xaxis_title='Elapsed Time',
+                yaxis_title='Value',
+                height=400,
+                width=1500,
+            )
+            figs.append(fig)
+        
+        # Display all figures in Streamlit
+        for fig in figs:
+            st.plotly_chart(fig)
+
+        #Plot for 3rd gradient
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=ecg_index, y=gradien3, mode='lines', name='Gradien 3', line=dict(color='blue')))
+        fig.update_layout(
+            title='Gradien 3',
+            xaxis_title='Time (s)',
+            yaxis_title='Amplitude (V)',
+            height=400,
+            width=1500
+        )
+        
+        # Display in Streamlit
+        st.plotly_chart(fig)
+        
 
 
 
