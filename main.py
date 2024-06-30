@@ -11,7 +11,7 @@ import streamlit as st
 
 ########
 column_names = ['ECG']
-data=pd.read_csv('ECG5minutes.txt',delimiter="\t", names=column_names)
+data=pd.read_csv('dataecginofix1.txt',delimiter="\t", names=column_names)
 data["sample interval"] = np.arange(len(data))
 data["elapsed time"] = (data["sample interval"])*(1/200)
 x=data["elapsed time"]
