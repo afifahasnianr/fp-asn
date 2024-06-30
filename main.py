@@ -104,11 +104,10 @@ def dirac(x):
     ax.bar(n_list, g, 0.1)
     st.pyplot(fig)
 
-
 elif selected == "HRV Analysis":
     st.title('HRV Analysis')
     # Add HRV analysis logic here
 
 elif selected == "DWT":
     st.title('DWT')
-    #Add DWT program here
+    # Add DWT analysis logic here
