@@ -154,6 +154,19 @@ for i in range(0, round(fs/2)+1) :
   Q[7][i] = Gw[64*i]*Hw[32*i]*Hw[16*i]*Hw[8*i]*Hw[4*i]*Hw[2*i]*Hw[i]
   Q[8][i] = Gw[128*i]*Hw[64*i]*Hw[32*i]*Hw[16*i]*Hw[8*i]*Hw[4*i]*Hw[2*i]*Hw[i]
 
+  qj = np.zeros((6, 10000))
+
+  #Filter coeff. from filter bank 1st order
+  k_list = [ ]
+  j = 1
+  a = -(round(2**j) + round(2**(j-1)) - 2 )
+  print('a =', a)
+  b = -(1 - round (2** (j-1))) + 1
+  print('b =', b)
+  for k in range (a,b):
+      k_list.append(k)
+      qj[1][k+abs(a)] = -2 * ( dirac(k) - dirac(k+1) )
+
 #DISPLAY STREAMLIT
 st.set_page_config(
   page_title="FINAL PROJECT ASN",
@@ -392,6 +405,7 @@ if selected == "DWT":
   
   elif sub_selected == 'Filter Bank':
         # Plot lines
+        st.subheader('Filter Bank')
         fig, ax = plt.subplots(figsize=(10, 6))
         for i in range(1, 9):
             line_label = "Q{}".format(i)
@@ -401,4 +415,12 @@ if selected == "DWT":
         ax.set_xlabel('Frequency (Hz)')
         ax.set_ylabel('Magnitude')
         st.pyplot(fig)
+
+        #Plot filter coeff from filter bank 1st order
+        st.bar_chart(qj[1][0:len(k_list)])
+        st.title('1st Order Filter Bank Coeff')
+
+
+
+
     
