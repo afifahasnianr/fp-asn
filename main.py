@@ -6,6 +6,13 @@ from streamlit_option_menu import option_menu
 import math
 import streamlit as st 
 
+# Function to create Dirac delta
+def dirac(x):
+    if x == 0:
+        return 1
+    else:
+        return 0
+
 
 # Read data
 column_names = ['ECG']
@@ -71,13 +78,6 @@ elif selected == "Signal Processing":
 
         # Show the plot
         st.plotly_chart(fig)
-        
-# Function to create Dirac delta
-def dirac(x):
-    if x == 0:
-        return 1
-    else:
-        return 0
 
  # Compute h(n) and g(n)
     h = []
