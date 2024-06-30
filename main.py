@@ -76,7 +76,9 @@ def compute_HW_GW():
         Gw[i] = temp_Gw
 
     i_list = i_list[0:round(fs/2)+1]
-    #return i_list, Hw[0:len(i_list)], Gw[0:len(i_list)]
+    return i_list, Hw[0:len(i_list)], Gw[0:len(i_list)]
+
+i_list, Hw, Gw = compute_HW_GW()
 
 # Range data to be processed (adjust mins and maks as needed)
 fs = 125
