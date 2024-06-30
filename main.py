@@ -213,7 +213,7 @@ ecg=y
 w2fb = np.zeros((6, len(ecg) + T5))
 n_list = list(range(len(ecg)))
   
-  # Perform calculations
+# Perform calculations
 for n in n_list:
     for j in range(1, 6):
         w2fb[1][n + T1] = 0
@@ -229,26 +229,19 @@ for n in n_list:
                 w2fb[3][n + T3] += qj[3][k + abs(a)] * ecg[index]
                 w2fb[4][n + T3] += qj[4][k + abs(a)] * ecg[index]
                 w2fb[5][n + T3] += qj[5][k + abs(a)] * ecg[index]
-                
-#Plot for 3rd gradient
-gradien3 = np.zeros(len(ecg))
-    
-# Define delay
-delay = T3
-    
+
 # Compute gradien3
 N = len(ecg)
 for k in range(delay, N - delay):
     gradien3[k] = w2fb[3][k - delay] - w2fb[3][k + delay]
 
-#QRS Detection
+# QRS Detection
 hasil_QRS = np.zeros(len(elapsed_time))
 for i in range(N):
-  if (gradien3[i] > 1.8):
-      hasil_QRS[i-(T3+5)] = 5
-  else:
-      hasil_QRS[i-(T3+5)] = 0
-
+    if (gradien3[i] > 1.8):
+        hasil_QRS[i-(T3+5)] = 5
+    else:
+        hasil_QRS[i-(T3+5)] = 0
 
 #DISPLAY STREAMLIT
 st.set_page_config(
