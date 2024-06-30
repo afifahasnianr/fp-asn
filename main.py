@@ -72,6 +72,32 @@ elif selected == "Signal Processing":
         # Show the plot
         st.plotly_chart(fig)
 
+ # Compute h(n) and g(n)
+    h = []
+    g = []
+    n_list = []
+    for n in range(-2, 3):  # Ensure the range includes 2
+        n_list.append(n)
+        temp_h = 1/8 * (dirac(n-1) + 3*dirac(n) + 3*dirac(n+1) + dirac(n+2))
+        h.append(temp_h)
+        temp_g = -2 * (dirac(n) - dirac(n+1))
+        g.append(temp_g)
+
+    # Plot h(n)
+    st.title('LPF and HPF Filter Coefficient')
+
+    st.subheader('h(n)')
+    fig, ax = plt.subplots()
+    ax.bar(n_list, h, 0.1)
+    st.pyplot(fig)
+
+    # Plot g(n)
+    st.subheader('g(n)')
+    fig, ax = plt.subplots()
+    ax.bar(n_list, g, 0.1)
+    st.pyplot(fig)
+
+
 elif selected == "HRV Analysis":
     st.title('HRV Analysis')
     # Add HRV analysis logic here
