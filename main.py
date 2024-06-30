@@ -166,38 +166,37 @@ for n in range(mins, maks + 1):
                 w2fm[j, n] += g[k + 1] * y[index]  # g[k+1] to match indexing
                 s2fm[j, n] += h[k + 1] * y[index]  # h[k+1] to match indexing
 
-    # Compute H(w) and G(w)
-    i_list, Hw, Gw = compute_HW_GW()
+# Compute H(w) and G(w)
+i_list, Hw, Gw = compute_HW_GW()
 
-    # Plot H(w)
-    st.subheader('H(w)')
-    plt.plot(i_list, Hw)
-    plt.xlabel('Frequency')
-    plt.ylabel('Magnitude')
-    plt.title('H(w)')
-    st.pyplot()
+# Plot H(w)
+st.subheader('H(w)')
+plt.plot(i_list, Hw)
+plt.xlabel('Frequency')
+plt.ylabel('Magnitude')
+plt.title('H(w)')
+st.pyplot()
 
-    # Plot G(w)
-    st.subheader('G(w)')
-    plt.plot(i_list, Gw)
-    plt.xlabel('Frequency')
-    plt.ylabel('Magnitude')
-    plt.title('G(w)')
-    st.pyplot()
-   
-    # Adding labels and legend
-    plt.xlabel('n')
-    plt.ylabel('w2fm[1, n]')
-    plt.title('Mallat Filtering')  # Title for the Mallat filter plot
-    plt.legend()
-    
-elif selected == "HRV Analysis":
+# Plot G(w)
+st.subheader('G(w)')
+plt.plot(i_list, Gw)
+plt.xlabel('Frequency')
+plt.ylabel('Magnitude')
+plt.title('G(w)')
+st.pyplot()
+
+# Adding labels and legend for Mallat Filtering plot
+plt.xlabel('n')
+plt.ylabel('w2fm[1, n]')
+plt.title('Mallat Filtering')  # Title for the Mallat filter plot
+plt.legend()
+
+# Handle different selections
+if selected == "HRV Analysis":
     st.title('HRV Analysis')
-
-#elif selected == "HRV Analysis":
-    #st.title('HRV Analysis')
     # Add HRV analysis logic here
 
 elif selected == "DWT":
     st.title('DWT')
     # Add DWT analysis logic here
+
