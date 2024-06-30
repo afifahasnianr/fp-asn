@@ -20,7 +20,7 @@ with st.sidebar:
     selected = option_menu("TUGAS 1", ["Home", "Signal Processing", "HRV Analysis", "DWT"], default_index=0)
 
 if selected == "Home":
-    st.title('Project ASN Kelompok 6')
+    st.title('Final Project ASN Kelompok 6')
    
     st.subheader("Anggota kelompok")
     members = [
@@ -30,7 +30,7 @@ if selected == "Home":
     ]
     
     for member in members:
-        new_title = f'<p style="font-family:Georgia; color: blue; font-size: 34px;">{member}</p>'
+        new_title = f'<p style="font-family:Georgia; color: white; font-size: 34px;">{member}</p>'
         st.markdown(new_title, unsafe_allow_html=True)
 
    
