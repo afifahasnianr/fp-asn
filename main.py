@@ -190,9 +190,12 @@ for n in range(mins, maks + 1):
     plt.ylabel('w2fm[1, n]')
     plt.title('Mallat Filtering')  # Title for the Mallat filter plot
     plt.legend()
-
+    
 elif selected == "HRV Analysis":
     st.title('HRV Analysis')
+
+#elif selected == "HRV Analysis":
+    #st.title('HRV Analysis')
     # Add HRV analysis logic here
 
 elif selected == "DWT":
