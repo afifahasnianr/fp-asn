@@ -13,7 +13,6 @@ def dirac(x):
     else:
         return 0
 
-
 # Read data
 column_names = ['ECG']
 data = pd.read_csv('dataecginofix1.txt', delimiter="\t", names=column_names)
@@ -142,7 +141,7 @@ elif selected == "Signal Processing":
         # Show the plot
         st.plotly_chart(fig)
 
- # Compute h(n) and g(n)
+ # 1. Compute h(n) and g(n)
     h = []
     g = []
     n_list = []
@@ -168,7 +167,7 @@ elif selected == "Signal Processing":
     st.pyplot(fig)
 
     # Compute H(w) and G(w)
-    i_list, Hw, Gw = compute_HW_GW()
+    #i_list, Hw, Gw = compute_HW_GW()
 
     # Plot H(w)
     st.subheader('H(w)')
