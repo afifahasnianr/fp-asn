@@ -30,7 +30,7 @@ if selected == "Home":
     ]
     
     for member in members:
-        new_title = f'<p style="font-family:Georgia; color: black; font-size: 15px;">{member}</p>'
+        new_title = f'<p style="font-family:Georgia; color: blue; font-size: 34px;">{member}</p>'
         st.markdown(new_title, unsafe_allow_html=True)
 
    
