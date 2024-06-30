@@ -32,3 +32,50 @@ if selected == "Home":
     for member in members:
         new_title = f'<p style="font-family:Georgia; color: white; font-size: 34px;">{member}</p>'
         st.markdown(new_title, unsafe_allow_html=True)
+
+elif selected == "Signal Processing":
+    st.title('Signal Processing')
+   
+    # File uploader for data file
+    uploaded_file = st.file_uploader("Choose a file")
+
+    if uploaded_file is not None:
+        # Load the data
+        df = pd.read_csv(uploaded_file, sep='\t', header=None)
+        ecg_signal = df[df.columns[0]]
+
+        # Calculate the number of samples
+        N = len(ecg_signal)
+
+        # Calculate the elapsed time
+        sample_interval = np.arange(0, N)
+        elapsed_time = sample_interval * (1/125)
+
+        # Center the ECG signal by subtracting the mean
+        y = ecg_signal / 1e8
+
+        # Plot using Plotly
+        fig = go.Figure()
+
+        # Add the ECG signal trace
+        fig.add_trace(go.Scatter(x=elapsed_time, y=y, mode='lines', name='ECG Signal'))
+
+        # Update the layout
+        fig.update_layout(
+            title='ECG Signal',
+            xaxis_title='Elapsed Time (s)',
+            yaxis_title='Amplitude',
+            width=1000,
+            height=400
+        )
+
+        # Show the plot
+        st.plotly_chart(fig)
+
+elif selected == "HRV Analysis":
+    st.title('HRV Analysis')
+    # Add HRV analysis logic here
+
+elif selected == "DWT":
+    st.title('DWT')
+    #Add DWT program here
