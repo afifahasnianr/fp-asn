@@ -389,7 +389,7 @@ if selected == "DWT":
           )
      # Display the figure in Streamlit
      st.plotly_chart(figplot)
-   
+  
   elif sub_selected == 'Filter Bank':
       
 
