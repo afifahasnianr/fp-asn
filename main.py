@@ -193,11 +193,11 @@ if selected == "ECG INPUT":
 if selected == "DWT":
   sub_selected = st.sidebar.radio(
   "PILIH",
-  ["Coeff", "Mallat", "-"],
+  ["Filter Coeff", "Mallat", "Filter Bank"],
   index=0
   )
 
-  if sub_selected == 'Coeff':
+  if sub_selected == 'Filter Coeff':
     #Plot h(n)
     st.subheader('h(n)')
     fig, ax = plt.subplots()
@@ -390,7 +390,8 @@ if selected == "DWT":
      # Display the figure in Streamlit
      st.plotly_chart(figplot)
    
-    
+    elif sub_selected == 'Filter Bank':
+      
 
     
     
