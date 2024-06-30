@@ -21,66 +21,10 @@ data["elapsed time"] = data["sample interval"] * (1/200)
 x = data["elapsed time"]
 y = data["ECG"] - (sum(data["ECG"]) / len(data["ECG"]))  # Ensure the signal baseline is zero
 
-# Function to compute H(w) and G(w)
-def compute_HW_GW():
-    Hw = np.zeros(20000)
-    Gw = np.zeros(20000)
-    fs = 125
-    i_list = []
-    g = np.random.rand(5)  # Example: Replace with your coefficients g[k]
-    h = np.random.rand(5)  # Example: Replace with your coefficients h[k]
-
-    for i in range(0, fs+1):
-        i_list.append(i)
-        reG = 0
-        imG = 0
-        reH = 0
-        imH = 0
-        for k in range(-2, 2):
-            reG = reG + g[k+abs(-2)]*np.cos(k*2*np.pi*i/fs)
-            imG = imG - g[k+abs(-2)]*np.sin(k*2*np.pi*i/fs)
-            reH = reH + h[k+abs(-2)]*np.cos(k*2*np.pi*i/fs)
-            imH = imH - h[k+abs(-2)]*np.sin(k*2*np.pi*i/fs)
-        temp_Hw = np.sqrt((reH**2) + (imH**2))
-        temp_Gw = np.sqrt((reG**2) + (imG**2))
-        Hw[i] = temp_Hw
-        Gw[i] = temp_Gw
-
-    i_list = i_list[0:round(fs/2)+1]
-
-    return i_list, Hw[0:len(i_list)], Gw[0:len(i_list)]
     
 # Range data to be processed (adjust mins and maks as needed)
-fs = 125
 mins = 0 * fs
 maks = 4 * fs
-
-# T and Delay calculations (example)
-T1 = round(2**(1 - 1)) - 1
-T2 = round(2**(2 - 1)) - 1
-T3 = round(2**(3 - 1)) - 1
-T4 = round(2**(4 - 1)) - 1
-T5 = round(2**(5 - 1)) - 1
-
-Delay1 = T5 - T1
-Delay2 = T5 - T2
-Delay3 = T5 - T3
-Delay4 = T5 - T4
-Delay5 = T5 - T5
-
-# Mallat filter calculation
-w2fm = np.zeros((6, maks + 1))
-s2fm = np.zeros((6, maks + 1))
-
-for n in range(mins, maks + 1):
-    for j in range(1, 6):
-        w2fm[j, n] = 0
-        s2fm[j, n] = 0
-        for k in range(-1, 3):
-            index = int(round(n - (2**(j - 1)) * k))
-            if 0 <= index < len(y):  # Ensure the index is within bounds
-                w2fm[j, n] += g[k + 1] * y[index]  # g[k+1] to match indexing
-                s2fm[j, n] += h[k + 1] * y[index]  # h[k+1] to match indexing
 
 
 # Display Streamlit
@@ -165,6 +109,62 @@ elif selected == "Signal Processing":
     fig, ax = plt.subplots()
     ax.bar(n_list, g, 0.1)
     st.pyplot(fig)
+
+    # 2.  to compute H(w) and G(w)
+def compute_HW_GW():
+    Hw = np.zeros(20000)
+    Gw = np.zeros(20000)
+    fs = 125
+    i_list = []
+    g = np.random.rand(5)  # Example: Replace with your coefficients g[k]
+    h = np.random.rand(5)  # Example: Replace with your coefficients h[k]
+
+    for i in range(0, fs+1):
+        i_list.append(i)
+        reG = 0
+        imG = 0
+        reH = 0
+        imH = 0
+        for k in range(-2, 2):
+            reG = reG + g[k+abs(-2)]*np.cos(k*2*np.pi*i/fs)
+            imG = imG - g[k+abs(-2)]*np.sin(k*2*np.pi*i/fs)
+            reH = reH + h[k+abs(-2)]*np.cos(k*2*np.pi*i/fs)
+            imH = imH - h[k+abs(-2)]*np.sin(k*2*np.pi*i/fs)
+        temp_Hw = np.sqrt((reH**2) + (imH**2))
+        temp_Gw = np.sqrt((reG**2) + (imG**2))
+        Hw[i] = temp_Hw
+        Gw[i] = temp_Gw
+
+    i_list = i_list[0:round(fs/2)+1]
+
+    return i_list, Hw[0:len(i_list)], Gw[0:len(i_list)]
+    
+# T and Delay calculations (example)
+T1 = round(2**(1 - 1)) - 1
+T2 = round(2**(2 - 1)) - 1
+T3 = round(2**(3 - 1)) - 1
+T4 = round(2**(4 - 1)) - 1
+T5 = round(2**(5 - 1)) - 1
+
+Delay1 = T5 - T1
+Delay2 = T5 - T2
+Delay3 = T5 - T3
+Delay4 = T5 - T4
+Delay5 = T5 - T5
+
+# Mallat filter calculation
+w2fm = np.zeros((6, maks + 1))
+s2fm = np.zeros((6, maks + 1))
+
+for n in range(mins, maks + 1):
+    for j in range(1, 6):
+        w2fm[j, n] = 0
+        s2fm[j, n] = 0
+        for k in range(-1, 3):
+            index = int(round(n - (2**(j - 1)) * k))
+            if 0 <= index < len(y):  # Ensure the index is within bounds
+                w2fm[j, n] += g[k + 1] * y[index]  # g[k+1] to match indexing
+                s2fm[j, n] += h[k + 1] * y[index]  # h[k+1] to match indexing
 
     # Compute H(w) and G(w)
     #i_list, Hw, Gw = compute_HW_GW()
