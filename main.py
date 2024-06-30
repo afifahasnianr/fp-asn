@@ -84,8 +84,6 @@ for n in range(mins, maks + 1):
                 s2fm[j, n] += h[k + 1] * y[index]  # h[k+1] to match indexing
 
 
-    
-
 # Display Streamlit
 with st.sidebar:
     selected = option_menu("TUGAS 1", ["Home", "Signal Processing", "HRV Analysis", "DWT"], default_index=0)
@@ -107,25 +105,7 @@ if selected == "Home":
 elif selected == "Signal Processing":
     st.title('Signal Processing')
 
-# Compute H(w) and G(w)
-    i_list, Hw, Gw = compute_HW_GW()
 
-    # Plot H(w)
-    st.subheader('H(w)')
-    plt.plot(i_list, Hw)
-    plt.xlabel('Frequency')
-    plt.ylabel('Magnitude')
-    plt.title('H(w)')
-    st.pyplot()
-
-    # Plot G(w)
-    st.subheader('G(w)')
-    plt.plot(i_list, Gw)
-    plt.xlabel('Frequency')
-    plt.ylabel('Magnitude')
-    plt.title('G(w)')
-    st.pyplot()
-   
     # File uploader for data file
     uploaded_file = st.file_uploader("Choose a file")
 
@@ -187,6 +167,25 @@ elif selected == "Signal Processing":
     ax.bar(n_list, g, 0.1)
     st.pyplot(fig)
 
+    # Compute H(w) and G(w)
+    i_list, Hw, Gw = compute_HW_GW()
+
+    # Plot H(w)
+    st.subheader('H(w)')
+    plt.plot(i_list, Hw)
+    plt.xlabel('Frequency')
+    plt.ylabel('Magnitude')
+    plt.title('H(w)')
+    st.pyplot()
+
+    # Plot G(w)
+    st.subheader('G(w)')
+    plt.plot(i_list, Gw)
+    plt.xlabel('Frequency')
+    plt.ylabel('Magnitude')
+    plt.title('G(w)')
+    st.pyplot()
+   
     # Adding labels and legend
     plt.xlabel('n')
     plt.ylabel('w2fm[1, n]')
