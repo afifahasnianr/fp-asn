@@ -116,9 +116,6 @@ def compute_HW_GW():
     Gw = np.zeros(20000)
     fs = 125
     i_list = []
-    g = np.random.rand(5)  # Example: Replace with your coefficients g[k]
-    h = np.random.rand(5)  # Example: Replace with your coefficients h[k]
-
     for i in range(0, fs+1):
         i_list.append(i)
         reG = 0
@@ -137,7 +134,7 @@ def compute_HW_GW():
 
     i_list = i_list[0:round(fs/2)+1]
 
-    return i_list, Hw[0:len(i_list)], Gw[0:len(i_list)]
+    #return i_list, Hw[0:len(i_list)], Gw[0:len(i_list)]
     
 # T and Delay calculations (example)
 T1 = round(2**(1 - 1)) - 1
@@ -167,7 +164,7 @@ for n in range(mins, maks + 1):
                 s2fm[j, n] += h[k + 1] * y[index]  # h[k+1] to match indexing
 
 # Compute H(w) and G(w)
-i_list, Hw, Gw = compute_HW_GW()
+#i_list, Hw, Gw = compute_HW_GW()
 
 # Plot H(w)
 st.subheader('H(w)')
