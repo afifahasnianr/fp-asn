@@ -571,12 +571,12 @@ if selected == "DWT":
             fig = go.Figure()
             fig.add_trace(go.Scatter(x=ecg_index, y=gradien3, mode='lines', name='Gradien 3', line=dict(color='blue')))
             fig.update_layout(
-      title= 'Gradien 3',
-      xaxis_title='Time (s)',
-      yaxis_title='Amplitude (V)',
-      height=400,
-      width=1500
-        )
+            title= 'Gradien 3',
+            xaxis_title='Time (s)',
+            yaxis_title='Amplitude (V)',
+            height=400,
+            width=1500
+            )
         
       # Display in Streamlit
             st.plotly_chart(fig)
