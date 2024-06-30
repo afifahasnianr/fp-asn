@@ -241,13 +241,13 @@ N = len(ecg)
 for k in range(delay, N - delay):
     gradien3[k] = w2fb[3][k - delay] - w2fb[3][k + delay]
 
-  #QRS Detection
-  hasil_QRS = np.zeros(len(elapsed_time))
-  for i in range(N):
-      if (gradien3[i] > 1.8):
-          hasil_QRS[i-(T3+5)] = 5
-      else:
-          hasil_QRS[i-(T3+5)] = 0
+#QRS Detection
+hasil_QRS = np.zeros(len(elapsed_time))
+for i in range(N):
+  if (gradien3[i] > 1.8):
+      hasil_QRS[i-(T3+5)] = 5
+  else:
+      hasil_QRS[i-(T3+5)] = 0
 
 
 #DISPLAY STREAMLIT
