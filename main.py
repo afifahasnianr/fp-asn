@@ -45,7 +45,7 @@ if selected == "Home":
         new_title = f'<p style="font-family:Georgia; color: white; font-size: 34px;">{member}</p>'
         st.markdown(new_title, unsafe_allow_html=True)
 
-elif selected == "Signal Processing":
+if selected == "Signal Processing":
     st.title('Signal Processing')
 
 
@@ -188,11 +188,10 @@ plt.ylabel('w2fm[1, n]')
 plt.title('Mallat Filtering')  # Title for the Mallat filter plot
 plt.legend()
 
-elif selected == "HRV Analysis":
-    st.title('HRV Analysis')
-    # Add HRV analysis logic here
-
-elif selected == "DWT":
-    st.title('DWT')
-    # Add DWT analysis logic here
-
+# Handle different selections
+if selected == "HRV Analysis":
+ st.title('HRV Analysis')
+# Add HRV analysis logic here
+if selected == "DWT":
+ st.title('DWT')
+# Add DWT analysis logic here
