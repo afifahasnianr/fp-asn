@@ -156,7 +156,7 @@ for i in range(0, round(fs/2)+1) :
   Q[8][i] = Gw[128*i]*Hw[64*i]*Hw[32*i]*Hw[16*i]*Hw[8*i]*Hw[4*i]*Hw[2*i]*Hw[i]
 
   #Calculate the x-axis value
-    i_list = np.arange(0, round(fs/2)+1)
+  i_list = np.arange(0, round(fs/2)+1)
 
   qj = np.zeros((6, 10000))
 
