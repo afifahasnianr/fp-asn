@@ -94,6 +94,7 @@ for n in range(mins, maks + 1):
                 w2fm[j, n] += g[k + 1] * y[index]  # g[k+1] to match indexing
                 s2fm[j, n] += h[k + 1] * y[index]  # h[k+1] to match indexing
 
+#plotting w1fm[1,n]
 plt.figure(figsize=(20, 5))
 x_values = range(mins, maks + 1)
 y_values = [w2fm[1, n] for n in x_values]
@@ -142,7 +143,7 @@ y_values_s2fm_5 = [s2fm[5, n] for n in x_values]
 Q = np. zeros ((9, round (fs/2)+1))
 
 #Filter bank until 8th order
-i_list = [ ]
+#i_list = [ ]
 for i in range(0, round(fs/2)+1) :
   i_list.append(i)
   Q[1][i] = Gw[i]
@@ -153,6 +154,9 @@ for i in range(0, round(fs/2)+1) :
   Q[6][i] = Gw[32*i]*Hw[16*i]*Hw[8*i]*Hw[4*i]*Hw[2*i]*Hw[i]
   Q[7][i] = Gw[64*i]*Hw[32*i]*Hw[16*i]*Hw[8*i]*Hw[4*i]*Hw[2*i]*Hw[i]
   Q[8][i] = Gw[128*i]*Hw[64*i]*Hw[32*i]*Hw[16*i]*Hw[8*i]*Hw[4*i]*Hw[2*i]*Hw[i]
+
+  #Calculate the x-axis value
+    i_list = np.arange(0, round(fs/2)+1)
 
   qj = np.zeros((6, 10000))
 
@@ -231,11 +235,8 @@ for i in range(0, round(fs/2)+1) :
                         - 21*dirac(k+41) - 15*dirac(k+42) - 10*dirac(k+43) - 6*dirac(k+44) - 3*dirac(k+45)
                         - dirac(k+46))
 
-  ecg=y
-  
+  ecg=y 
   w2fb = np.zeros((6, len(ecg) + T5))
-  
-  
   n_list = list(range(len(ecg)))
   
   # Perform calculations
