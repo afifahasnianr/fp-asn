@@ -391,5 +391,19 @@ if selected == "DWT":
      st.plotly_chart(figplot)
   
   elif sub_selected == 'Filter Bank':
-      
+    # Create 2D Array
+    Q = np. zeros ((9, round (fs/2)+1))
+    #Filter bank until 8th order
+    i_list = [ ]
+    for i in range(0, round(fs/2)+1) :
+        i_list.append(i)
+        Q[1][i] = Gw[i]
+        Q[2][i] = Gw[2*i]*Hw[i]
+        Q[3][i] = Gw[4*i]*Hw[2*i]*Hw[i]
+        Q[4][i] = Gw[8*i]*Hw[4*i]*Hw[2*i]*Hw[i]
+        Q[5][i] = Gw[16*i]*Hw[8*i]*Hw[4*i]*Hw[2*i]*Hw[i]
+        Q[6][i] = Gw[32*i]*Hw[16*i]*Hw[8*i]*Hw[4*i]*Hw[2*i]*Hw[i]
+        Q[7][i] = Gw[64*i]*Hw[32*i]*Hw[16*i]*Hw[8*i]*Hw[4*i]*Hw[2*i]*Hw[i]
+        Q[8][i] = Gw[128*i]*Hw[64*i]*Hw[32*i]*Hw[16*i]*Hw[8*i]*Hw[4*i]*Hw[2*i]*Hw[i]
+      #Result of freq. response of Mallat algorith + filter bank
 
