@@ -266,6 +266,14 @@ for i in range(0, round(fs/2)+1) :
   for k in range(delay, N - delay):
       gradien3[k] = w2fb[3][k - delay] - w2fb[3][k + delay]
 
+  #QRS Detection
+  hasil_QRS = np.zeros(len(elapsed_time))
+  for i in range(N):
+      if (gradien3[i] > 1.8):
+          hasil_QRS[i-(T3+5)] = 5
+      else:
+          hasil_QRS[i-(T3+5)] = 0
+
 
 #DISPLAY STREAMLIT
 st.set_page_config(
@@ -552,24 +560,25 @@ if selected == "DWT":
             )
             figs.append(fig)
         
-        # Display all figures in Streamlit
-        for fig in figs:
+      # Display all figures in Streamlit
+      for fig in figs:
             st.plotly_chart(fig)
 
-        #Plot for 3rd gradient
-        st.title('3rd Gradient Plot')
-        fig = go.Figure()
-        fig.add_trace(go.Scatter(x=ecg_index, y=gradien3, mode='lines', name='Gradien 3', line=dict(color='blue')))
-        fig.update_layout(
-            title='Gradien 3',
-            xaxis_title='Time (s)',
-            yaxis_title='Amplitude (V)',
-            height=400,
-            width=1500
+      #Plot for 3rd gradient
+      st.title('3rd Gradient Plot')
+      fig = go.Figure()
+      fig.add_trace(go.Scatter(x=ecg_index, y=gradien3, mode='lines', name='Gradien 3', line=dict(color='blue')))
+      fig.update_layout(
+      title='Gradien 3',
+      xaxis_title='Time (s)',
+      yaxis_title='Amplitude (V)',
+      height=400,
+      width=1500
         )
         
-        # Display in Streamlit
-        st.plotly_chart(fig)
+      # Display in Streamlit
+      t.plotly_chart(fig)
+    
 
 
 
