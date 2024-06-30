@@ -191,11 +191,10 @@ for n in range(mins, maks + 1):
     plt.title('Mallat Filtering')  # Title for the Mallat filter plot
     plt.legend()
 
-
 elif selected == "HRV Analysis":
     st.title('HRV Analysis')
     # Add HRV analysis logic here
 
-elif selected == "DWT":
+else selected == "DWT":
     st.title('DWT')
     # Add DWT analysis logic here
