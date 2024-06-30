@@ -167,6 +167,70 @@ for i in range(0, round(fs/2)+1) :
       k_list.append(k)
       qj[1][k+abs(a)] = -2 * ( dirac(k) - dirac(k+1) )
 
+  #Filter coeff. from filter bank 2nd order
+  k_list = []
+  j = 2
+  a = -(round(2**j) + round(2**(j-1)) - 2 )
+  print('a =', a)
+  b = - (1 - round (2**(j-1))) + 1
+  print('b =', b)
+  for k in range (a,b):
+    k_list.append(k)
+    qj[2][k+abs(a)] = -1/4*(dirac(k-1) + 3*dirac(k) + 2*dirac(k+1) - 2*dirac(k+2)- 3*dirac(k+3) - dirac(k+4))
+
+  #Filter coeff. from filter bank 3rd order
+  k_list = [ ]
+  j= 3
+  a = -(round(2**j) + round(2**(j-1)) - 2 )
+  print('a =', a)
+  b = -(1 - round(2**(j-1))) + 1
+  print('b =', b)
+  
+  for k in range (a,b):
+    k_list.append(k)
+    qj[3][k+abs(a)] = -1/32*(dirac(k-3) + 3*dirac(k-2) + 6*dirac(k-1) + 10*dirac(k)
+    + 11*dirac(k+1) + 9*dirac(k+2) + 4*dirac(k+3) - 4*dirac(k+4) - 9*dirac(k+5)
+    - 11*dirac(k+6) - 10*dirac(k+7) - 6*dirac(k+8) - 3*dirac(k+9) - dirac(k+10))
+
+  #Filter coeff. from filter bank 4th order
+  k_list = []
+  j = 4
+  a = -(round (2**j) + round (2**(j-1)) - 2 )
+  print('a =', a)
+  b = -(1 - round (2**(j-1))) + 1
+  print('b =', b)
+  for k in range (a,b):
+    k_list.append(k)
+    qj[4][k+abs(a)] = -1/256*(dirac(k-7) + 3*dirac(k-6) + 6*dirac(k-5) + 10*dirac(k-4) + 15*dirac(k-3)
+    + 21*dirac(k-2) + 28*dirac(k-1) + 36*dirac(k) + 41*dirac(k+1) + 43*dirac(k+2)
+    + 42*dirac(k+3) + 38*dirac(k+4) + 31*dirac(k+5) + 21*dirac(k+6) + 8*dirac(k+7)
+    - 8*dirac(k+8) - 21*dirac(k+9) - 31*dirac(k+10) - 38*dirac(k+11) - 42*dirac(k+12)
+    - 43*dirac(k+13) - 41*dirac(k+14) - 36*dirac(k+15) - 28*dirac(k+16) - 21*dirac(k+17)
+    - 15*dirac(k+18) - 10*dirac(k+19) - 6*dirac(k+20) - 3*dirac(k+21) - dirac(k+22))
+
+  #Filter coeff. from filter bank 5th order
+  k_list = []
+  j = 5
+  a = -(round(2**j) + round(2**(j-1)) - 2)
+  print('a = ', a)
+  b = -(1 - round(2**(j-1))) + 1
+  print('b = ', b)
+  
+  for k in range(a,b):
+    k_list.append(k)
+    qj[5][k+abs(a)] = -1/(512)*(dirac(k-15) + 3*dirac(k-14) + 6*dirac(k-13) + 10*dirac(k-12) + 15*dirac(k-11) + 21*dirac(k-10)
+                        + 28*dirac(k-9) + 36*dirac(k-8) + 45*dirac(k-7) + 55*dirac(k-6) + 66*dirac(k-5) + 78*dirac(k-4)
+                        + 91*dirac(k-3) + 105*dirac(k-2) + 120*dirac(k-1) + 136*dirac(k) + 149*dirac(k+1) + 159*dirac(k+2)
+                        + 166*dirac(k+3) + 170*dirac(k+4) + 171*dirac(k+5) + 169*dirac(k+6) + 164*dirac(k+7) + 156*dirac(k+8)
+                        + 145*dirac(k+9) + 131*dirac(k+10) + 114*dirac(k+11) + 94*dirac(k+12) + 71*dirac(k+13) + 45*dirac(k+14)
+                        + 16*dirac(k+15) - 16*dirac(k+16) - 45*dirac(k+17) - 71*dirac(k+18) - 94*dirac(k+19) - 114*dirac(k+20)
+                        - 131*dirac(k+21) - 145*dirac(k+22) - 156*dirac(k+23) - 164*dirac(k+24) - 169*dirac(k+25)
+                        - 171*dirac(k+26) - 170*dirac(k+27) - 166*dirac(k+28) - 159*dirac(k+29) - 149*dirac(k+30)
+                        - 136*dirac(k+31) - 120*dirac(k+32) - 105*dirac(k+33) - 91*dirac(k+34) - 78*dirac(k+35)
+                        - 66*dirac(k+36) - 55*dirac(k+37) - 45*dirac(k+38) - 36*dirac(k+39) - 28*dirac(k+40)
+                        - 21*dirac(k+41) - 15*dirac(k+42) - 10*dirac(k+43) - 6*dirac(k+44) - 3*dirac(k+45)
+                        - dirac(k+46))
+
 #DISPLAY STREAMLIT
 st.set_page_config(
   page_title="FINAL PROJECT ASN",
@@ -417,8 +481,26 @@ if selected == "DWT":
         st.pyplot(fig)
 
         #Plot filter coeff from filter bank 1st order
-        st.bar_chart(qj[1][0:len(k_list)])
         st.title('1st Order Filter Bank Coeff')
+        st.bar_chart(qj[1][0:len(k_list)])
+
+        #Plot filter coeff from filter bank 1st order
+        st.title('2nd Order Filter Bank Coeff')
+        st.bar_chart(qj[2][0:len(k_list)])
+
+        #Plot filter coeff from filter bank 1st order
+        st.title('3rd Order Filter Bank Coeff')
+        st.bar_chart(qj[3][0:len(k_list)])
+
+        #Plot filter coeff from filter bank 1st order
+        st.title('4th Order Filter Bank Coeff')
+        st.bar_chart(qj[4][0:len(k_list)])
+
+        #Plot filter coeff from filter bank 1st order
+        st.title('5th Order Filter Bank Coeff')
+        st.bar_chart(qj[5][0:len(k_list)])
+
+
 
 
 
