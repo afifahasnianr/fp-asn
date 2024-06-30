@@ -109,6 +109,7 @@ def compute_HW_GW():
 
     #return i_list, Hw[0:len(i_list)], Gw[0:len(i_list)]
 # Range data to be processed (adjust mins and maks as needed)
+fs = 125
 mins = 0 * fs
 maks = 4 * fs
 
