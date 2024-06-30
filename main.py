@@ -71,6 +71,13 @@ elif selected == "Signal Processing":
 
         # Show the plot
         st.plotly_chart(fig)
+        
+# Function to create Dirac delta
+def dirac(x):
+    if x == 0:
+        return 1
+    else:
+        return 0
 
  # Compute h(n) and g(n)
     h = []
