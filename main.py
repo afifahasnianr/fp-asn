@@ -160,34 +160,66 @@ qj = np.zeros((6, 10000))
 #Filter coeff. from filter bank 1st order
 k_list = [ ]
 j = 1
-a = -(round(2*j) + round(2*(j-1)) - 2 )
+a = -(round(2**j) + round(2**(j-1)) - 2 )
 b = -(1 - round (2** (j-1))) + 1
-qj = np.zeros((2, b - a))
-for k in range(a, b):
-    k_list.append(k)
-    qj[1][k + abs(a)] = -2 * (dirac(k) - dirac(k + 1))
-
-#Filter coeff. from filter bank 2nd order
-k_list = []
-j = 2
-a = -(round(2*j) + round(2*(j-1)) - 2 )
-b = - (1 - round (2**(j-1))) + 1
-qj = np.zeros((3, b - a))  # Adjusting for qj[2][k] in a larger array
-for k in range(a, b):
-    k_list.append(k)
-    qj[2][k + abs(a)] = -1/4*(dirac(k-1) + 3*dirac(k) + 2*dirac(k+1) - 2*dirac(k+2) - 3*dirac(k+3) - dirac(k+4))
-
-#Filter coeff. from filter bank 3rd order
-k_list = [ ]
-j= 3
-a = -(round(2*j) + round(2*(j-1)) - 2 )
-b = -(1 - round(2**(j-1))) + 1
-qj = np.zeros((4, b - a))
 for k in range (a,b):
   k_list.append(k)
-  qj[3][k+abs(a)] = -1/32*(dirac(k-3) + 3*dirac(k-2) + 6*dirac(k-1) + 10*dirac(k)
+  qj[1][k+abs(a)] = -2 * ( dirac(k) - dirac(k+1) )
+
+#Filter coeff. from filter bank 2nd order
+k2_list = []
+j = 2
+a2 = -(round(2**j) + round(2**(j-1)) - 2 )
+b2 = - (1 - round (2**(j-1))) + 1
+for k in range (a2,b2):
+  k2_list.append(k)
+  qj[2][k+abs(a2)] = -1/4*(dirac(k-1) + 3*dirac(k) + 2*dirac(k+1) - 2*dirac(k+2)- 3*dirac(k+3) - dirac(k+4))
+
+#Filter coeff. from filter bank 3rd order
+k3_list = [ ]
+j= 3
+a3 = -(round(2**j) + round(2**(j-1)) - 2 )
+b3 = -(1 - round(2**(j-1))) + 1
+for k in range (a3,b3):
+  k3_list.append(k)
+  qj[3][k+abs(a3)] = -1/32*(dirac(k-3) + 3*dirac(k-2) + 6*dirac(k-1) + 10*dirac(k)
   + 11*dirac(k+1) + 9*dirac(k+2) + 4*dirac(k+3) - 4*dirac(k+4) - 9*dirac(k+5)
   - 11*dirac(k+6) - 10*dirac(k+7) - 6*dirac(k+8) - 3*dirac(k+9) - dirac(k+10))
+
+#Filter coeff. from filter bank 4th order
+k4_list = []
+j = 4
+a4 = -(round (2**j) + round (2**(j-1)) - 2 )
+b4 = -(1 - round (2**(j-1))) + 1
+for k in range (a4,b4):
+  k4_list.append(k)
+  qj[4][k+abs(a4)] = -1/256*(dirac(k-7) + 3*dirac(k-6) + 6*dirac(k-5) + 10*dirac(k-4) + 15*dirac(k-3)
+  + 21*dirac(k-2) + 28*dirac(k-1) + 36*dirac(k) + 41*dirac(k+1) + 43*dirac(k+2)
+  + 42*dirac(k+3) + 38*dirac(k+4) + 31*dirac(k+5) + 21*dirac(k+6) + 8*dirac(k+7)
+  - 8*dirac(k+8) - 21*dirac(k+9) - 31*dirac(k+10) - 38*dirac(k+11) - 42*dirac(k+12)
+  - 43*dirac(k+13) - 41*dirac(k+14) - 36*dirac(k+15) - 28*dirac(k+16) - 21*dirac(k+17)
+  - 15*dirac(k+18) - 10*dirac(k+19) - 6*dirac(k+20) - 3*dirac(k+21) - dirac(k+22))
+
+#Filter coeff. from filter bank 5th order
+k5_list = []
+j = 5
+a5 = -(round(2**j) + round(2**(j-1)) - 2)
+b5 = -(1 - round(2**(j-1))) + 1
+for k in range(a5,b5):
+  k5_list.append(k)
+  qj[5][k+abs(a5)] = -1/(512)*(dirac(k-15) + 3*dirac(k-14) + 6*dirac(k-13) + 10*dirac(k-12) + 15*dirac(k-11) + 21*dirac(k-10)
+                      + 28*dirac(k-9) + 36*dirac(k-8) + 45*dirac(k-7) + 55*dirac(k-6) + 66*dirac(k-5) + 78*dirac(k-4)
+                      + 91*dirac(k-3) + 105*dirac(k-2) + 120*dirac(k-1) + 136*dirac(k) + 149*dirac(k+1) + 159*dirac(k+2)
+                      + 166*dirac(k+3) + 170*dirac(k+4) + 171*dirac(k+5) + 169*dirac(k+6) + 164*dirac(k+7) + 156*dirac(k+8)
+                      + 145*dirac(k+9) + 131*dirac(k+10) + 114*dirac(k+11) + 94*dirac(k+12) + 71*dirac(k+13) + 45*dirac(k+14)
+                      + 16*dirac(k+15) - 16*dirac(k+16) - 45*dirac(k+17) - 71*dirac(k+18) - 94*dirac(k+19) - 114*dirac(k+20)
+                      - 131*dirac(k+21) - 145*dirac(k+22) - 156*dirac(k+23) - 164*dirac(k+24) - 169*dirac(k+25)
+                      - 171*dirac(k+26) - 170*dirac(k+27) - 166*dirac(k+28) - 159*dirac(k+29) - 149*dirac(k+30)
+                      - 136*dirac(k+31) - 120*dirac(k+32) - 105*dirac(k+33) - 91*dirac(k+34) - 78*dirac(k+35)
+                      - 66*dirac(k+36) - 55*dirac(k+37) - 45*dirac(k+38) - 36*dirac(k+39) - 28*dirac(k+40)
+                      - 21*dirac(k+41) - 15*dirac(k+42) - 10*dirac(k+43) - 6*dirac(k+44) - 3*dirac(k+45)
+                      - dirac(k+46))
+
 
 
 #DISPLAY STREAMLIT
@@ -226,151 +258,304 @@ if selected == "ECG INPUT":
     )
     st.plotly_chart(fig)
 
-# ... existing code ...
-
 if selected == "DWT":
-    sub_selected = st.sidebar.radio(
-        "PILIH",
-        ["Filter Coeff", "Mallat", "Filter Bank"],
-        index=0
-    )
+  sub_selected = st.sidebar.radio(
+  "PILIH",
+  ["Filter Coeff", "Mallat", "Filter Bank"],
+  index=0
+  )
 
-    if sub_selected == 'Coeff':
-        # Plot h(n)
-        st.subheader('h(n)')
-        fig, ax = plt.subplots()
-        ax.bar(n_list, h, width=0.1)
-        st.pyplot(fig)
-        
-        # Plot g(n)
-        st.subheader('g(n)')
-        fig, ax = plt.subplots()
-        ax.bar(n_list, g, width=0.1)
-        st.pyplot(fig)
+  if sub_selected == 'Filter Coeff':
+    st.title ('Frequency Domain')
+    #Plot h(n)
+    st.subheader('h(n)')
+    fig, ax = plt.subplots()
+    ax.bar(n_list, h, width=0.1)
+    st.pyplot(fig)
+    
+    # Plot g(n)
+    st.subheader('g(n)')
+    fig, ax = plt.subplots()
+    ax.bar(n_list, g, width=0.1)
+    st.pyplot(fig)
 
-        # Plot Hw
-        st.subheader('Hw')
-        fig, ax = plt.subplots()
-        ax.plot(i_list, Hw[:len(i_list)])
-        st.pyplot(fig)
-        
-        # Plot Gw
-        st.subheader('Gw')
-        fig, ax = plt.subplots()
-        ax.plot(i_list, Gw[:len(i_list)])
-        st.pyplot(fig)
+    st.title ('Time Domain')
+    # Plot Hw
+    st.subheader('Hw')
+    fig, ax = plt.subplots()
+    ax.plot(i_list, Hw[:len(i_list)])
+    st.pyplot(fig)
+    
+    # Plot Gw
+    st.subheader('Gw')
+    fig, ax = plt.subplots()
+    ax.plot(i_list, Gw[:len(i_list)])
+    st.pyplot(fig)
 
-        # Display range data
-        new_title = '<p style="font-family:Georgia; color: black; font-size: 20px;">Nilai T1</p>'
-        st.markdown(new_title, unsafe_allow_html=True)
-        st.write(T1, font_size=30)
+    #range data yang akan diproses
+    new_title = '<p style="font-family:Georgia; color: black; font-size: 20px;">Nilai T1</p>'
+    st.markdown(new_title, unsafe_allow_html=True)
+    st.write(T1, font_size=30)
 
-        # ... similar code for other T values ...
+    new_title = '<p style="font-family:Georgia; color: black; font-size: 20px;">Nilai T2</p>'
+    st.markdown(new_title, unsafe_allow_html=True)
+    st.write(T2, font_size=30)
 
-    elif sub_selected == 'Mallat':
-        new_title = '<p style="font-family:Georgia; color:black; font-size: 25px; text-align: center;">MALLAT</p>'
-        st.markdown(new_title, unsafe_allow_html=True)
-        selected2 = option_menu(None, ["w2fm", "s2fm", "combined graph", "freq response"], 
-                                menu_icon="cast", default_index=0, orientation="horizontal")
+    new_title = '<p style="font-family:Georgia; color: black; font-size: 20px;">Nilai T3</p>'
+    st.markdown(new_title, unsafe_allow_html=True)
+    st.write(T3, font_size=30)
+    
+    new_title = '<p style="font-family:Georgia; color: black; font-size: 20px;">Nilai T4</p>'
+    st.markdown(new_title, unsafe_allow_html=True)
+    st.write(T4, font_size=30)
 
-        if selected2 == 'w2fm':
-            st.title('w2fm series')
-            st.subheader('Plot for w2fm[1, n]')
-            figplot = go.Figure(data=go.Scatter(x=x_values, y=y_values, mode='lines'))
-            figplot.update_layout(
-                title="Plot for w2fm[1, n]",
-                xaxis_title="n",
-                yaxis_title="w2fm[1, n]",
-                xaxis=dict(showline=True, showgrid=True),
-                yaxis=dict(showline=True, showgrid=True)
-            )
-            st.plotly_chart(figplot)
+    new_title = '<p style="font-family:Georgia; color: black; font-size: 20px;">Nilai T5</p>'
+    st.markdown(new_title, unsafe_allow_html=True)
+    st.write(T5, font_size=30)
 
-            # ... similar code for other w2fm plots ...
+    new_title = '<p style="font-family:Georgia; color: black; font-size: 20px;">Nilai Delay1</p>'
+    st.markdown(new_title, unsafe_allow_html=True)
+    st.write(Delay1, font_size=30)
 
-        elif selected2 == 's2fm':
-            st.title('s2fm Series')
-            st.subheader('Plot for s2fm[1, n]')
-            figplot = go.Figure(data=go.Scatter(x=x_values, y=y_values_s2fm, mode='lines'))
-            figplot.update_layout(
-                title="Plot for s2fm[1, n]",
-                xaxis_title="n",
-                yaxis_title="s2fm[1, n]",
-                xaxis=dict(showline=True, showgrid=True),
-                yaxis=dict(showline=True, showgrid=True)
-            )
-            st.plotly_chart(figplot)
+    new_title = '<p style="font-family:Georgia; color: black; font-size: 20px;">Nilai Delay2</p>'
+    st.markdown(new_title, unsafe_allow_html=True)
+    st.write(Delay2, font_size=30)
 
-            # ... similar code for other s2fm plots ...
+    new_title = '<p style="font-family:Georgia; color: black; font-size: 20px;">Nilai Delay3</p>'
+    st.markdown(new_title, unsafe_allow_html=True)
+    st.write(Delay3, font_size=30)
 
-        elif selected2 == 'combined graph':
-            st.title('Combined Graphs for w2fm and s2fm Series')
-            fig_w2fm = go.Figure()
-            fig_s2fm = go.Figure()
-            for j in range(1, 6):
-                fig_w2fm.add_trace(go.Scatter(x=x_values, y=w2fm[j], mode='lines', name=f'w2fm[{j}]'))
-                fig_s2fm.add_trace(go.Scatter(x=x_values, y=s2fm[j], mode='lines', name=f's2fm[{j}]'))
-            fig_w2fm.update_layout(
-                title="Plots for w2fm Series",
-                xaxis_title="n",
-                yaxis_title="Values",
-                showlegend=True,
-                height=600,
-                width=800,
-            )
-            fig_s2fm.update_layout(
-                title="Plots for s2fm Series",
-                xaxis_title="n",
-                yaxis_title="Values",
-                showlegend=True,
-                height=600,
-                width=800,
-            )
-            st.plotly_chart(fig_w2fm)
-            st.plotly_chart(fig_s2fm)
+    new_title = '<p style="font-family:Georgia; color: black; font-size: 20px;">Nilai Delay4</p>'
+    st.markdown(new_title, unsafe_allow_html=True)
+    st.write(Delay4, font_size=30)
 
-        elif selected2 == 'freq response':
-            fig = go.Figure()
-            for i in range(1, 9):
-                line_label = f'Q{i}'
-                fig.add_trace(go.Scatter(x=i_list, y=Q[i], mode='lines', name=line_label))
-            fig.update_layout(
-                title="Frequency Response of Mallat Algorithm + Filter Bank",
-                xaxis_title="Frequency (Hz)",
-                yaxis_title="Magnitude",
-                showlegend=True,
-                height=600,
-                width=800,
-            )
-            st.plotly_chart(fig)
+    new_title = '<p style="font-family:Georgia; color: black; font-size: 20px;">Nilai Delay5</p>'
+    st.markdown(new_title, unsafe_allow_html=True)
+    st.write(Delay5, font_size=30)
 
-    elif sub_selected == 'Filter Bank':
-        #1st order
-        st.header('Filter coeff. from filter bank 1st order')
-        st.write(f"a = {a}, b = {b}")
-        # Plot qj[1][k]
-        fig, ax = plt.subplots(figsize=(8, 6))
-        ax.bar(k_list, qj[1][0:len(k_list)])
-        ax.set_xlabel('k')
-        ax.set_ylabel('qj[1][k]')
-        st.pyplot(fig)
+    #1st order
+    st.header('Filter coeff. from filter bank 1st order')
+    # Plot qj[1][k]
+    fig, ax = plt.subplots(figsize=(8, 6))
+    ax.bar(k_list, qj[1][0:len(k_list)])
+    ax.set_xlabel('k')
+    ax.set_ylabel('qj[1][k]')
+    st.pyplot(fig)
 
-        #2nd order
-        st.header('Filter coeff. from filter bank 2nd order')
-        st.write(f"a = {a}, b = {b}")
-        # Plot qj[2][k]
-        fig, ax = plt.subplots(figsize=(8, 6))
-        ax.bar(k_list, qj[2][0:len(k_list)])
-        ax.set_xlabel('k')
-        ax.set_ylabel('qj[2][k]')
-        st.pyplot(fig)
-        
-        #3rd order
-        st.header('Filter coeff. from filter bank 3rd order')
-        st.write(f"a = {a}, b = {b}")
-        # Plot qj[2][k]
-        fig, ax = plt.subplots(figsize=(8, 6))
-        ax.bar(k_list, qj[3][0:len(k_list)])
-        ax.set_xlabel('k')
-        ax.set_ylabel('qj[3][k]')
-        st.pyplot(fig)
+    #2nd order
+    st.header('Filter coeff. from filter bank 2nd order')
+    # Plot qj[2][k]
+    fig, ax = plt.subplots(figsize=(8, 6))
+    ax.bar(k2_list, qj[2][0:len(k2_list)])
+    ax.set_xlabel('k')
+    ax.set_ylabel('qj[2][k]')
+    st.pyplot(fig)
+
+    #3rd order
+    st.header('Filter coeff. from filter bank 3rd order')
+    # Plot qj[2][k]
+    fig, ax = plt.subplots(figsize=(8, 6))
+    ax.bar(k3_list, qj[3][0:len(k3_list)])
+    ax.set_xlabel('k')
+    ax.set_ylabel('qj[3][k]')
+    st.pyplot(fig)
+
+    #4th order
+    st.header('Filter coeff. from filter bank 4th order')
+    # Plot qj[4][k]
+    fig, ax = plt.subplots(figsize=(8, 6))
+    ax.bar(k4_list, qj[4][0:len(k4_list)])
+    ax.set_xlabel('k')
+    ax.set_ylabel('qj[4][k]')
+    st.pyplot(fig)
+
+    #5th order
+    st.header('Filter coeff. from filter bank 5th order')
+    # Plot qj[5][k]
+    fig, ax = plt.subplots(figsize=(8, 6))
+    ax.bar(k5_list, qj[5][0:len(k5_list)])
+    ax.set_xlabel('k')
+    ax.set_ylabel('qj[5][k]')
+    st.pyplot(fig)
+
+  elif sub_selected == 'Mallat':
+     new_title = '<p style="font-family:Georgia; color:black; font-size: 25px; text-align: center;">MALLAT</p>'
+     st.markdown(new_title, unsafe_allow_html=True)
+     selected2 = option_menu(None, ["w2fm", "s2fm","combined graph"], 
+     menu_icon="cast", default_index=0, orientation="horizontal")
+
+     if selected2 == 'w2fm':
+        st.title('w2fm series')
+        st.subheader('Plot for w2fm[1, n]')
+        figplot = go.Figure(data=go.Scatter(x=x_values, y=y_values, mode='lines'))
+        figplot.update_layout(
+            title="Plot for w2fm[1, n]",
+            xaxis_title="n",
+            yaxis_title="w2fm[1, n]",
+            xaxis=dict(showline=True, showgrid=True),
+            yaxis=dict(showline=True, showgrid=True)
+          )
+        # Display the figure in Streamlit
+        st.plotly_chart(figplot)
+
+        st.subheader('Plot for w2fm[2, n]')
+        figplot = go.Figure(data=go.Scatter(x=x_values, y=y2_values, mode='lines'))
+        figplot.update_layout(
+            title="Plot for w2fm[2, n]",
+            xaxis_title="n",
+            yaxis_title="w2fm[2, n]",
+            xaxis=dict(showline=True, showgrid=True),
+            yaxis=dict(showline=True, showgrid=True)
+          )
+        # Display the figure in Streamlit
+        st.plotly_chart(figplot)
+
+        st.subheader('Plot for w2fm[3, n]')
+        figplot = go.Figure(data=go.Scatter(x=x_values, y=y3_values, mode='lines'))
+        figplot.update_layout(
+            title="Plot for w2fm[3, n]",
+            xaxis_title="n",
+            yaxis_title="w2fm[3, n]",
+            xaxis=dict(showline=True, showgrid=True),
+            yaxis=dict(showline=True, showgrid=True)
+          )
+        # Display the figure in Streamlit
+        st.plotly_chart(figplot)
+
+        st.subheader('Plot for w2fm[4, n]')
+        figplot = go.Figure(data=go.Scatter(x=x_values, y=y4_values, mode='lines'))
+        figplot.update_layout(
+            title="Plot for w2fm[4, n]",
+            xaxis_title="n",
+            yaxis_title="w2fm[4, n]",
+            xaxis=dict(showline=True, showgrid=True),
+            yaxis=dict(showline=True, showgrid=True)
+          )
+        # Display the figure in Streamlit
+        st.plotly_chart(figplot)
+
+        st.subheader('Plot for w2fm[5, n]')
+        figplot = go.Figure(data=go.Scatter(x=x_values, y=y5_values, mode='lines'))
+        figplot.update_layout(
+            title="Plot for w2fm[5, n]",
+            xaxis_title="n",
+            yaxis_title="w2fm[5, n]",
+            xaxis=dict(showline=True, showgrid=True),
+            yaxis=dict(showline=True, showgrid=True)
+          )
+        # Display the figure in Streamlit
+        st.plotly_chart(figplot)
+
+     elif selected2 == 's2fm':
+        st.title('s2fm Series')
+        st.subheader('Plot for s2fm[1, n]')
+        figplot = go.Figure(data=go.Scatter(x=x_values, y=y_values_s2fm, mode='lines'))
+        figplot.update_layout(
+            title="Plot for s2fm[1, n]",
+            xaxis_title="n",
+            yaxis_title="s2fm[1, n]",
+            xaxis=dict(showline=True, showgrid=True),
+            yaxis=dict(showline=True, showgrid=True)
+          )
+        # Display the figure in Streamlit
+        st.plotly_chart(figplot)
+
+        st.subheader('Plot for s2fm[2, n]')
+        figplot = go.Figure(data=go.Scatter(x=x_values, y=y_values_s2fm_2, mode='lines'))
+        figplot.update_layout(
+            title="Plot for s2fm[2, n]",
+            xaxis_title="n",
+            yaxis_title="s2fm[2, n]",
+            xaxis=dict(showline=True, showgrid=True),
+            yaxis=dict(showline=True, showgrid=True)
+          )
+        # Display the figure in Streamlit
+        st.plotly_chart(figplot)
+
+        st.subheader('Plot for s2fm[3, n]')
+        figplot = go.Figure(data=go.Scatter(x=x_values, y=y_values_s2fm_3, mode='lines'))
+        figplot.update_layout(
+            title="Plot for s2fm[3, n]",
+            xaxis_title="n",
+            yaxis_title="s2fm[3, n]",
+            xaxis=dict(showline=True, showgrid=True),
+            yaxis=dict(showline=True, showgrid=True)
+          )
+        # Display the figure in Streamlit
+        st.plotly_chart(figplot)
+    
+        st.subheader('Plot for s2fm[4, n]')
+        figplot = go.Figure(data=go.Scatter(x=x_values, y=y_values_s2fm_4, mode='lines'))
+        figplot.update_layout(
+            title="Plot for s2fm[4, n]",
+            xaxis_title="n",
+            yaxis_title="s2fm[4, n]",
+            xaxis=dict(showline=True, showgrid=True),
+            yaxis=dict(showline=True, showgrid=True)
+          )
+        # Display the figure in Streamlit
+        st.plotly_chart(figplot)
+
+        st.subheader('Plot for s2fm[5, n]')
+        figplot = go.Figure(data=go.Scatter(x=x_values, y=y_values_s2fm_5, mode='lines'))
+        figplot.update_layout(
+            title="Plot for s2fm[5, n]",
+            xaxis_title="n",
+            yaxis_title="s2fm[5, n]",
+            xaxis=dict(showline=True, showgrid=True),
+            yaxis=dict(showline=True, showgrid=True)
+          )
+        # Display the figure in Streamlit
+        st.plotly_chart(figplot)
+
+
+     elif selected2 == 'combined graph':
+        st.title('w2fm Series')
+        fig_w2fm = go.Figure()
+         # Add traces for w2fm series
+        for j in range(1, 6):
+          fig_w2fm.add_trace(go.Scatter(x=x_values, y=w2fm[j], mode='lines', name=f'w2fm[{j}]'))
+          fig_w2fm.update_layout(
+          title="Plots for w2fm Series",
+          xaxis_title="n",
+          yaxis_title="Values",
+          showlegend=True,
+          height=600,
+          width=800,
+          )
+        st.plotly_chart(fig_w2fm)
+
+        #S2FM series
+        st.title('s2fm Series')
+        fig_s2fm = go.Figure()
+        for j in range(1, 6):
+          fig_s2fm.add_trace(go.Scatter(x=x_values, y=s2fm[j], mode='lines', name=f's2fm[{j}]'))
+          fig_s2fm.update_layout(
+          title="Plots for s2fm Series",
+          xaxis_title="n",
+          yaxis_title="Values",
+          showlegend=True,
+          height=600,
+          width=800,
+          )
+        st.plotly_chart(fig_s2fm)
+
+
+  elif sub_selected == 'Filter Bank':
+     #Freq response 
+       # Result of freq. response of Mallat algorithm + filter bank
+        st.title("Frequency Response of Mallat Algorithm + Filter Bank")
+
+       # Plot Lines
+        plt.figure()
+        i_list = np.arange(0, round(fs/2)+1)
+        for i in range(1, 9):
+          line_label = f"Q{i}"
+        plt.plot(i_list, Q[i], label=line_label)
+
+        plt.xlabel('Frequency (Hz)')
+        plt.ylabel('Amplitude')
+        plt.legend()
+        st.pyplot(plt)
+    
+  
